@@ -1,0 +1,25 @@
+import numpy as np
+
+def softmax(request):
+    """Responds to any HTTP request.
+    Args:
+        request (flask.Request): HTTP request object.
+    Returns:
+        The response text or any set of values that can be turned into a
+        Response object using
+        `make_response <http://flask.pocoo.org/docs/1.0/api/#flask.Flask.make_response>`.
+    """
+    thisDict = request.args
+    print(type(thisDict['1']))
+    a = [*thisDict.values()]
+    li = [ float(x) for x in a ]
+    print(li)
+    x = np.array(a)
+    print(x)
+    arr = np.exp(x) / np.sum(np.exp(x), axis=0)
+    print(arr)
+    cl = arr.argmax(axis=0)
+    print(cl)
+    print(type(cl))
+
+    return str(cl)
