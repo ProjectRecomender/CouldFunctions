@@ -1,0 +1,28 @@
+/**
+ * Responds to any HTTP request.
+ *
+ * @param {!express:Request} req HTTP request context.
+ * @param {!express:Response} res HTTP response context.
+ */
+
+exports.testAction = (req, res) => {
+    if (req.query.inputNumber1 <0 || req.query.inputNumber2 < 0) {
+        res.status(400).send( { error: 'Inputs must be greater >= zero' } );
+    } else {
+        let response = createResponse(req);
+        res.status(200).send(response);
+    }
+    return response;
+};
+ 
+/**
+* Responds to any HTTP request.
+*
+* @param {!express:Request} req HTTP request context.
+*/
+function createResponse(req) {
+   
+    var response = {};
+    response.sumOfNumber1AndNumber2 = req.query.inputNumber1 + req.query.inputNumber2;
+    return response;
+}
