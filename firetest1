@@ -1,0 +1,34 @@
+import numpy as np
+import json
+def hello_firestore(event, context):
+   """Triggered by a change to a Firestore document.
+   Args:
+        event (dict): Event payload.
+        context (google.cloud.functions.Context): Metadata for the event.
+   """
+   resource_string = context.resource
+   # print out the resource string that triggered the function
+   print(f"Function triggered by change to: {resource_string}.")
+   # now print out the entire event object
+   print("Hello")
+   print(event['value']['fields']['answered']['arrayValue']['values'])
+   print("Hello2")
+   print(type(event['value']['fields']['answered']['arrayValue']['values']))
+   
+   a = []
+   for ele in event['value']['fields']['answered']['arrayValue']['values']:
+    a.append(ele['mapValue']['fields']['value']['doubleValue'])
+ 
+   li = [ float(x) for x in a ]
+   print(li)
+   x = np.array(a)
+   print(x)
+   arr = np.exp(x) / np.sum(np.exp(x), axis=0)
+   print(arr)
+   cl = arr.argmax(axis=0)
+   print(cl)
+   print(type(cl))
+   print(str(event))
+   ans = {"class" : str(cl)}
+   print(ans)
+   return json.dumps(ans)
