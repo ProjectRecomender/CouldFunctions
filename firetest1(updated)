@@ -40,17 +40,17 @@ def hello_firestore(event, context):
    arr = np.exp(x) / np.sum(np.exp(x), axis=0)
    print(arr)
    cl = arr.argmax(axis=0)
-   print(cl)
-   print(type(cl))
-   print(str(event))
-   ans = {"class" : str(cl)}
-   print(ans)
+   n = 3
+   idx = np.argpartition(arr, -n)[-n:]
+   indices = idx[np.argsort((-arr)[idx])]
+   print(indices)
+   ans = list(indices)
+   print(type(ans[0]))
    data = {
-   u'class': str(cl)
+   u'classes': [str(ans[0]),str(ans[1]),str(ans[2])]
    }
  
    # Add a new doc in collection 'cities' with ID 'LA'
    db.collection(u'data').document(u'responses').set(data)
 
-   return json.dumps(ans)
-
+   
